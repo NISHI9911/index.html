@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* floating hearts background */
+    body::before {
+      content: "💖 💕 💗 💘 💝 💞";
+      position: absolute;
+      font-size: 40px;
+      opacity: 0.08;
+      animation: floatBg 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes floatBg {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
+    }
+
+    .card {
+      background: white;
+      padding: 26px;
+      border-radius: 22px;
+      text-align: center;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .count {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    #yes {
+      padding: 18px;
+      font-size: 20px;
+      background: linear-gradient(135deg, #ff4d6d, #ff85a2);
+      color: white;
+    }
+
+    #no {
+      padding: 10px;
+      font-size: 14px;
+      background: #f1f1f1;
+      color: #444;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="card">
+    <div class="count">💫 Chances left: 4</div>
+    <h1>Swetha 💖<br>Will you be my Valentine? 💌</h1>
+    <button id="yes">Yes ❤️🥰</button>
+    <button id="no">No 💔🥺</button>
+  </div>
+
+  <script>
+    let chances = 4;
+    const card = document.getElementById("card");
+
+    const sadMessages = [
+      "That made my heart a little quiet 😔💔<br>But you’re still special, Swetha 💕",
+      "Ouch… that one hurt 🥺💘<br>Still wishing you smiles 🌸",
+      "Not the answer I dreamed of 😢💭<br>I respect you, always 💖",
+      "Hmm… I felt that deeply 🫶😔<br>It’s okay though 💗",
+      "I’ll keep caring anyway 😊💞<br>You matter, Swetha 🌷"
+    ];
+
+    function randomSadMessage() {
+      return sadMessages[Math.floor(Math.random() * sadMessages.length)];
+    }
+
+    function showMain(showNo = true) {
+      card.innerHTML = `
+        <div class="count">💫 Chances left: ${chances}</div>
+        <h1>Swetha 💖<br>Will you be my Valentine? 💌</h1>
+        <button id="yes">Yes ❤️🥰</button>
+        ${showNo ? '<button id="no">No 💔🥺</button>' : ''}
+      `;
+      addEvents();
+    }
+
+    function addEvents() {
+      document.getElementById("yes").onclick = () => {
+        card.innerHTML = `
+          <h1>Yayyy Swetha 😍💖✨<br>
+          You just made my heart sooo happy 💘💫</h1>
+        `;
+      };
+
+      const noBtn = document.getElementById("no");
+      if (noBtn) {
+        noBtn.onclick = () => {
+          chances--;
+
+          card.innerHTML = `<h1>${randomSadMessage()}</h1>`;
+
+          setTimeout(() => {
+            if (chances > 0) {
+              showMain(true);
+            } else {
+              card.innerHTML = `
+                <div class="count">💫 Chances left: 0</div>
+                <h1>Only one choice left, Swetha 💖🥰</h1>
+                <button id="yes">Yes ❤️💍</button>
+              `;
+              addEvents();
+            }
+          }, 5000);
+        };
+      }
+    }
+
+    addEvents();
+  </script>
+
+</body>
+</html>
